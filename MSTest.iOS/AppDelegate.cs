@@ -4,7 +4,7 @@ using MvvmCross.Platform;
 using Foundation;
 using UIKit;
 
-namespace MCTest.iOS
+namespace MSTest.iOS
 {
 	[Register("AppDelegate")]
 	public partial class AppDelegate : MvxApplicationDelegate

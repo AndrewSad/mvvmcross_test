@@ -1,22 +1,42 @@
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using MvvmCross.Core.ViewModels;
 using PropertyChanged;
 
 namespace MCTest.Core.ViewModels
 {
-	[ImplementPropertyChanged]
-    public class FirstViewModel 
-        : MvxViewModel
-    {
-		private readonly IDataService _dataService;
+	public class FirstViewModel
+		: MvxViewModel
+	{
+		readonly IDataService _dataService;
 
-		public List<Question> Questions { get; set; }
+		public ObservableCollection<Question> Questions { get; set; }
 
-		public string QuestionsTag { get; set; }
+		string _questionsTag;
 
-		public FirstViewModel(IDataService dataService)
+		public string QuestionsTag
 		{
-			_dataService = dataService;
+			get { return _questionsTag; }
+			set
+			{
+				_questionsTag = value;
+				RaisePropertyChanged(() => QuestionsTag);
+			}
+		}
+
+		bool _isLoading;
+
+		public bool IsLoading
+		{
+			get { return _isLoading; }
+			set
+			{
+				_isLoading = value;
+				RaisePropertyChanged(() => IsLoading);
+
+
+			}
 		}
 
 		private Question _selectedQuestion;
@@ -33,9 +53,25 @@ namespace MCTest.Core.ViewModels
 			}
 		}
 
+		public FirstViewModel(IDataService dataService)
+		{
+			_dataService = dataService;
+			QuestionsTag = "xamarin";
+			getTestList().ConfigureAwait(false);
+		}
+
+		async Task<ObservableCollection<Question>> getTestList()
+		{
+			IsLoading = true;
+			var questionsArray = await _dataService.getQuestionsByTag("xamarin");
+			Questions = questionsArray;
+			IsLoading = false;
+			return questionsArray;
+		}
+
 		public IMvxCommand SearchQuestionsByTagCommand
-		{ 
-			get 
+		{
+			get
 			{
 				return new MvxCommand(async () =>
 				{
@@ -45,11 +81,11 @@ namespace MCTest.Core.ViewModels
 		}
 
 		public IMvxCommand ShowSelectedQuestionCommand
-		{ 
-			get 
+		{
+			get
 			{
 				return new MvxCommand(() => ShowViewModel<DetailedQuestionViewModel>(new { question = SelectedQuestion }),
-				                      () => SelectedQuestion != null);
+									  () => SelectedQuestion != null);
 			}
 
 		}

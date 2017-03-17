@@ -2,7 +2,7 @@ using System;
 using System.Diagnostics;
 using MvvmCross.Platform.Platform;
 
-namespace MCTest.iOS
+namespace MCTest.Droid
 {
     public class DebugTrace : IMvxTrace
     {

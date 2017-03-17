@@ -21,20 +21,6 @@ namespace MCTest.Core
 		public string title { get; set; }
 		public string body { get; set; }
 
-		//public Question()
-		//{
-		//	tags = new List<string> { };
-		//	answers = new List<Answer> { };
-		//	is_answered = false;
-		//	score = 0;
-		//	creation_date = int.Parse(DateTime.Now.ToString());
-		//	last_activity_date = creation_date;
-		//	last_edit_date = creation_date;
-		//	question_id = "0";
-		//	body = "Dummy question body";
-		//	title = "Dummy question title";
-		//	owner = new Owner { display_name = "Dummy owner's display name", profile_image = "", reputation = "0", link = "", user_id = "0" };
 
-		//}
 	}
 }

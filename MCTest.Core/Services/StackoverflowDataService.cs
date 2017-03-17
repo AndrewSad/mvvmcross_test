@@ -6,6 +6,8 @@ using System.Net.Http;
 using Newtonsoft.Json;
 using MvvmCross.Platform;
 using System.Linq;
+using System.Net;
+using System.Collections.ObjectModel;
 
 namespace MCTest.Core
 {
@@ -17,17 +19,20 @@ namespace MCTest.Core
 		{
 			get
 			{
-				return _baseClient ?? (_baseClient = new HttpClient(new NativeMessageHandler())
+				var handler = new HttpClientHandler();
+				if (handler.SupportsAutomaticDecompression)
+					handler.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip;
+				return _baseClient ?? (_baseClient = new HttpClient(handler)
 				{
 					BaseAddress = new Uri(Constants.SOBaseAddress)
 				});
 			}
 		}
 
-		public async Task<List<Question>> getQuestionsByTag(string tag)
+		public async Task<ObservableCollection<Question>> getQuestionsByTag(string tag)
 		{
 			//throw new NotImplementedException();
-			var questions = new List<Question>();
+			var questions = new ObservableCollection<Question>();
 
 			try
 			{
@@ -41,7 +46,7 @@ namespace MCTest.Core
 				var so_response = JsonConvert.DeserializeObject<SO_Response>(json);
 
 
-				questions = so_response.items;
+				questions = new ObservableCollection<Question>(so_response.items);
 
 
 				return questions;

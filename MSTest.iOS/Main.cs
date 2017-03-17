@@ -1,6 +1,6 @@
 ﻿using UIKit;
 
-namespace MCTest.iOS
+namespace MSTest.iOS
 {
 	public class Application
 	{

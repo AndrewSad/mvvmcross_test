@@ -4,7 +4,7 @@ using MvvmCross.iOS.Views.Presenters;
 using MvvmCross.Platform.Platform;
 using UIKit;
 
-namespace MCTest.iOS
+namespace MSTest.iOS
 {
     public class Setup : MvxIosSetup
     {
@@ -20,7 +20,7 @@ namespace MCTest.iOS
 
         protected override IMvxApplication CreateApp()
         {
-            return new Core.App();
+            return new MCTest.Core.App();
         }
         
         protected override IMvxTrace CreateDebugTrace()
